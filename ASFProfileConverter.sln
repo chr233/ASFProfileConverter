@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASFProfileConverter", "ASFProfileConverter\ASFProfileConverter.csproj", "{6FA7F267-5452-4ED8-A420-761E0DFEE510}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{C5AF535F-B62B-48F8-8E7A-16E15619A1F5}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FA7F267-5452-4ED8-A420-761E0DFEE510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA7F267-5452-4ED8-A420-761E0DFEE510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA7F267-5452-4ED8-A420-761E0DFEE510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA7F267-5452-4ED8-A420-761E0DFEE510}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4BCCAD9-E435-48A6-8E38-DC0DD2A1CC82}
+	EndGlobalSection
+EndGlobal

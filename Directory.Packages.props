@@ -1,0 +1,5 @@
+<Project>
+	<ItemGroup>
+		<PackageVersion Include="protobuf-net" Version="3.2.16" />
+	</ItemGroup>
+</Project>
