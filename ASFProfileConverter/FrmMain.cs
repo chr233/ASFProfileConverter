@@ -222,7 +222,12 @@ namespace ASFProfileConverter
             var lines = botAccounts.Split('\n');
             foreach (var line in lines)
             {
-                var texts = line.Trim().Split(new char[] { ',', '£¬', ' ', '\t' });
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
+
+                var texts = line.Trim().Split(new char[] { ',', '£¬', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (texts.Length < 2)
                 {
@@ -292,7 +297,7 @@ namespace ASFProfileConverter
             }
 
             var savePath = Path.Combine(asfFolder, "export.csv");
-            using var file = File.Open(savePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            using var file = File.Open(savePath, FileMode.Truncate, FileAccess.Write, FileShare.None);
             using var sw = new StreamWriter(file);
             await sw.WriteAsync(sb);
 
