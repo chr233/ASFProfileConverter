@@ -152,7 +152,8 @@ namespace ASFProfileConverter
 
                                 //创建配置文件
                                 string configPath = Path.Combine(asfFolder, accountName + ".json");
-                                using var asfStream = File.Open(configPath, FileMode.Truncate, FileAccess.Write);
+                                bool exist = File.Exists(configPath);
+                                using var asfStream = File.Open(configPath, exist ? FileMode.Truncate : FileMode.CreateNew, FileAccess.Write);
                                 var configJson = botModel.Replace(Langs.Login, accountName).Replace(Langs.Passwd, accountPasswd);
                                 await asfStream.WriteAsync(Encoding.UTF8.GetBytes(configJson));
                                 await asfStream.FlushAsync();
@@ -177,7 +178,8 @@ namespace ASFProfileConverter
                     {
                         //创建配置文件
                         string configPath = Path.Combine(asfFolder, accountName + ".json");
-                        using var asfStream = File.Open(configPath, FileMode.Truncate, FileAccess.Write);
+                        bool exist = File.Exists(configPath);
+                        using var asfStream = File.Open(configPath, exist ? FileMode.Truncate : FileMode.CreateNew, FileAccess.Write);
                         var configJson = botModel.Replace(Langs.Login, accountName).Replace(Langs.Passwd, accountPasswd);
                         await asfStream.WriteAsync(Encoding.UTF8.GetBytes(configJson));
                         await asfStream.FlushAsync();
