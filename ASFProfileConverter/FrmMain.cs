@@ -180,7 +180,7 @@ namespace ASFProfileConverter
                         using var asfStream = File.Open(configPath, FileMode.Truncate, FileAccess.Write);
                         var configJson = botModel.Replace(Langs.Login, accountName).Replace(Langs.Passwd, accountPasswd);
                         await asfStream.WriteAsync(Encoding.UTF8.GetBytes(configJson));
-                        asfStream.Close();
+                        await asfStream.FlushAsync();
                         convertedBotNames.Add(accountName);
                     }
                 }
