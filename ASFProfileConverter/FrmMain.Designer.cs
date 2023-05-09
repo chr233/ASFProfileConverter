@@ -38,9 +38,14 @@
             btnASFFolder = new Button();
             txtASFFolder = new TextBox();
             btnToForm = new Button();
+            sS = new StatusStrip();
+            tsAuthor = new ToolStripStatusLabel();
+            tsGithub = new ToolStripStatusLabel();
+            tsVersion = new ToolStripStatusLabel();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            sS.SuspendLayout();
             SuspendLayout();
             // 
             // txtMaFolder
@@ -92,10 +97,10 @@
             groupBox2.Controls.Add(txtBotAccoutns);
             groupBox2.Location = new Point(12, 137);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(550, 433);
+            groupBox2.Size = new Size(550, 470);
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
-            groupBox2.Text = "机器人账号 密码 一行一个";
+            groupBox2.Text = "机器人账号密码信息，一行一个，支持中英文逗号或者空格分隔";
             // 
             // txtBotAccoutns
             // 
@@ -103,8 +108,9 @@
             txtBotAccoutns.Location = new Point(6, 22);
             txtBotAccoutns.Multiline = true;
             txtBotAccoutns.Name = "txtBotAccoutns";
+            txtBotAccoutns.PlaceholderText = "登录名 , 密码";
             txtBotAccoutns.ScrollBars = ScrollBars.Vertical;
-            txtBotAccoutns.Size = new Size(535, 405);
+            txtBotAccoutns.Size = new Size(535, 442);
             txtBotAccoutns.TabIndex = 0;
             // 
             // groupBox3
@@ -150,11 +156,55 @@
             btnToForm.UseVisualStyleBackColor = true;
             btnToForm.Click += btnToForm_Click;
             // 
+            // sS
+            // 
+            sS.Items.AddRange(new ToolStripItem[] { tsAuthor, tsGithub, tsVersion });
+            sS.Location = new Point(0, 610);
+            sS.Name = "sS";
+            sS.Size = new Size(574, 22);
+            sS.TabIndex = 5;
+            sS.Text = "statusStrip1";
+            // 
+            // tsAuthor
+            // 
+            tsAuthor.IsLink = true;
+            tsAuthor.LinkBehavior = LinkBehavior.HoverUnderline;
+            tsAuthor.LinkColor = Color.Black;
+            tsAuthor.Name = "tsAuthor";
+            tsAuthor.Size = new Size(64, 17);
+            tsAuthor.Text = "作者: Chr_";
+            tsAuthor.VisitedLinkColor = Color.Black;
+            tsAuthor.Click += tsAuthor_Click;
+            // 
+            // tsGithub
+            // 
+            tsGithub.IsLink = true;
+            tsGithub.LinkBehavior = LinkBehavior.HoverUnderline;
+            tsGithub.LinkColor = Color.Black;
+            tsGithub.Name = "tsGithub";
+            tsGithub.Size = new Size(463, 17);
+            tsGithub.Spring = true;
+            tsGithub.Text = "获取源码";
+            tsGithub.VisitedLinkColor = Color.Black;
+            tsGithub.Click += tsGithub_Click;
+            // 
+            // tsVersion
+            // 
+            tsVersion.IsLink = true;
+            tsVersion.LinkBehavior = LinkBehavior.HoverUnderline;
+            tsVersion.LinkColor = Color.Black;
+            tsVersion.Name = "tsVersion";
+            tsVersion.Size = new Size(32, 17);
+            tsVersion.Text = "版本";
+            tsVersion.VisitedLinkColor = Color.Black;
+            tsVersion.Click += tsVersion_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(574, 582);
+            ClientSize = new Size(574, 632);
+            Controls.Add(sS);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(btnToForm);
@@ -162,13 +212,17 @@
             Controls.Add(groupBox1);
             Name = "FrmMain";
             Text = "ASF配置文件批量生成 - By Chr_ 2023";
+            Load += FrmMain_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            sS.ResumeLayout(false);
+            sS.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -183,5 +237,9 @@
         private Button btnASFFolder;
         private TextBox txtASFFolder;
         private Button btnToForm;
+        private StatusStrip sS;
+        private ToolStripStatusLabel tsAuthor;
+        private ToolStripStatusLabel tsVersion;
+        private ToolStripStatusLabel tsGithub;
     }
 }

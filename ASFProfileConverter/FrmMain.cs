@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
@@ -11,6 +13,14 @@ namespace ASFProfileConverter
         public FrmMain()
         {
             InitializeComponent();
+        }
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            tsAuthor.Text = "作者: Chr_";
+            var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version("0.0.0.0");
+            tsVersion.Text = $"版本: {version}";
+            tsGithub.Text = "获取源码";
         }
 
         private void btnMaFolder_Click(object sender, EventArgs e)
@@ -118,7 +128,8 @@ namespace ASFProfileConverter
                                 //创建配置文件
                                 string configPath = Path.Combine(asfFolder, accountName + ".json");
                                 using var asfStream = File.Open(configPath, FileMode.OpenOrCreate, FileAccess.Write);
-                                var configJson = new ASFConfigData {
+                                var configJson = new ASFConfigData
+                                {
                                     SteamLogin = accountName,
                                     SteamPassword = accountPasswd,
                                 };
@@ -146,7 +157,8 @@ namespace ASFProfileConverter
                         //创建配置文件
                         string configPath = Path.Combine(asfFolder, accountName + ".json");
                         using var asfStream = File.Open(configPath, FileMode.OpenOrCreate, FileAccess.Write);
-                        var configJson = new ASFConfigData {
+                        var configJson = new ASFConfigData
+                        {
                             SteamLogin = accountName,
                             SteamPassword = accountPasswd,
                         };
@@ -268,5 +280,28 @@ namespace ASFProfileConverter
 
             MessageBox.Show(string.Format("操作完成, 共转换了 {0} 个机器人, 文件保存在 {1}", convertedBotNames.Count, savePath), "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        private static void OpenLink(string uri)
+        {
+            Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true });
+        }
+
+        private void tsAuthor_Click(object sender, EventArgs e)
+        {
+            const string target = "https://github.com/chr233/";
+            OpenLink(target);
+        }
+
+        private void tsGithub_Click(object sender, EventArgs e)
+        {
+            const string target = "https://github.com/chr233/ASFProfileConverter";
+            OpenLink(target);
+        }
+
+        private void tsVersion_Click(object sender, EventArgs e)
+        {
+            const string target = "https://github.com/chr233/ASFProfileConverter/releases";
+            OpenLink(target);
+        }
+
     }
 }
