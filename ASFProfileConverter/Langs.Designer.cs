@@ -70,7 +70,7 @@ namespace ASFProfileConverter {
         }
         
         /// <summary>
-        ///   查找类似 $$PASSWD 的本地化字符串。
+        ///   查找类似 $$PASSWD$$ 的本地化字符串。
         /// </summary>
         internal static string Passwd {
             get {

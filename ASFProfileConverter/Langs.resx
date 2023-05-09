@@ -121,6 +121,6 @@
     <value>$$LOGIN$$</value>
   </data>
   <data name="Passwd" xml:space="preserve">
-    <value>$$PASSWD</value>
+    <value>$$PASSWD$$</value>
   </data>
 </root>

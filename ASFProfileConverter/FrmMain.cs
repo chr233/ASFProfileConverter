@@ -101,12 +101,12 @@ namespace ASFProfileConverter
             var lines = botAccounts.Split('\n');
             foreach (var line in lines)
             {
-                if (string.IsNullOrEmpty(line.Trim()))
+                if (string.IsNullOrWhiteSpace(line))
                 {
                     continue;
                 }
 
-                var texts = line.Trim().Split(new char[] { ',', '，', ' ', '\t' });
+                var texts = line.Trim().Split(new char[] { ',', '，', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (texts.Length < 2)
                 {
@@ -152,9 +152,10 @@ namespace ASFProfileConverter
 
                                 //创建配置文件
                                 string configPath = Path.Combine(asfFolder, accountName + ".json");
-                                using var asfStream = File.Open(configPath, FileMode.OpenOrCreate, FileAccess.Write);
+                                using var asfStream = File.Open(configPath, FileMode.Truncate, FileAccess.Write);
                                 var configJson = botModel.Replace(Langs.Login, accountName).Replace(Langs.Passwd, accountPasswd);
                                 await asfStream.WriteAsync(Encoding.UTF8.GetBytes(configJson));
+                                await asfStream.FlushAsync();
                                 convertedBotNames.Add(accountName);
                             }
                         }
@@ -176,12 +177,10 @@ namespace ASFProfileConverter
                     {
                         //创建配置文件
                         string configPath = Path.Combine(asfFolder, accountName + ".json");
-                        using var asfStream = File.Open(configPath, FileMode.OpenOrCreate, FileAccess.Write);
-                        var configJson = new ASFConfigData {
-                            SteamLogin = accountName,
-                            SteamPassword = accountPasswd,
-                        };
-                        JsonSerializer.Serialize(asfStream, configJson);
+                        using var asfStream = File.Open(configPath, FileMode.Truncate, FileAccess.Write);
+                        var configJson = botModel.Replace(Langs.Login, accountName).Replace(Langs.Passwd, accountPasswd);
+                        await asfStream.WriteAsync(Encoding.UTF8.GetBytes(configJson));
+                        asfStream.Close();
                         convertedBotNames.Add(accountName);
                     }
                 }
