@@ -32,6 +32,9 @@ jobs:
       - name: Verify .NET Core
         run: dotnet --info
 
+      - name: Install dotnet-format
+        run: dotnet tool install -g dotnetCampus.EncodingNormalior
+
       - name: Prepare for publishing ${{ env.PROJECT_NAME }}
         shell: pwsh
         run: |
@@ -116,7 +119,6 @@ jobs:
           release_name: ${{ env.PROJECT_NAME }} ${{ github.ref_name }}
           prerelease: true
           body_path: .github/RELEASE_TEMPLATE.md
-
 
       - name: Upload ${{ env.PROJECT_NAME }}-win-x64-fde to GitHub release
         uses: actions/upload-release-asset@v1.0.2

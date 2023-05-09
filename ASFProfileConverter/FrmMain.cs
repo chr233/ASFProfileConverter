@@ -1,18 +1,18 @@
-using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace ASFProfileConverter
 {
     public partial class FrmMain : Form
     {
+        private readonly JsonSerializerOptions _jsonOption;
         public FrmMain()
         {
             InitializeComponent();
+
+            _jsonOption = new JsonSerializerOptions { WriteIndented = true };
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -21,6 +21,12 @@ namespace ASFProfileConverter
             var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version("0.0.0.0");
             tsVersion.Text = $"版本: {version}";
             tsGithub.Text = "获取源码";
+
+            var configJson = new ASFConfigData {
+                SteamLogin = "$$LOGIN$$",
+                SteamPassword = "$$PASSWD$$",
+            };
+            txtBotModel.Text = JsonSerializer.Serialize(configJson, _jsonOption);
         }
 
         private void btnMaFolder_Click(object sender, EventArgs e)
@@ -47,7 +53,7 @@ namespace ASFProfileConverter
             }
         }
 
-        private void btnConvert_Click(object sender, EventArgs e)
+        private async void btnConvert_Click(object sender, EventArgs e)
         {
             string maFolder = txtMaFolder.Text;
             string asfFolder = txtASFFolder.Text;
@@ -73,6 +79,20 @@ namespace ASFProfileConverter
                 return;
             }
 
+            var botModel = txtBotModel.Text;
+
+            try
+            {
+                var _ = JsonSerializer.Deserialize<ASFConfigData>(botModel);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("ASF机器人模板无效\r\n错误详情: {0}", ex.Message), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtBotModel.Focus();
+                return;
+            }
+
+
             Dictionary<string, string> botDict = new();
             HashSet<string> convertedBotNames = new();
 
@@ -81,6 +101,11 @@ namespace ASFProfileConverter
             var lines = botAccounts.Split('\n');
             foreach (var line in lines)
             {
+                if (string.IsNullOrEmpty(line.Trim()))
+                {
+                    continue;
+                }
+
                 var texts = line.Trim().Split(new char[] { ',', '，', ' ', '\t' });
 
                 if (texts.Length < 2)
@@ -119,29 +144,24 @@ namespace ASFProfileConverter
                         if (maJson?.AccountName != null)
                         {
                             var accountName = maJson.AccountName;
-                            if (botDict.TryGetValue(accountName, out string? accountPasswd))
+                            if (botDict.TryGetValue(accountName, out string? accountPasswd) && !convertedBotNames.Contains(accountName))
                             {
                                 //复制令牌
                                 string maPath = Path.Combine(asfFolder, accountName + ".maFile");
-                                File.Copy(filePath, maPath);
+                                File.Copy(filePath, maPath, true);
 
                                 //创建配置文件
                                 string configPath = Path.Combine(asfFolder, accountName + ".json");
                                 using var asfStream = File.Open(configPath, FileMode.OpenOrCreate, FileAccess.Write);
-                                var configJson = new ASFConfigData
-                                {
-                                    SteamLogin = accountName,
-                                    SteamPassword = accountPasswd,
-                                };
-                                JsonSerializer.Serialize(asfStream, configJson);
-
+                                var configJson = botModel.Replace(Langs.Login, accountName).Replace(Langs.Passwd, accountPasswd);
+                                await asfStream.WriteAsync(Encoding.UTF8.GetBytes(configJson));
                                 convertedBotNames.Add(accountName);
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "text");
+                        MessageBox.Show(string.Format("写入机器人账号出错\r\n错误信息: {0}", ex.Message), "错误");
                     }
                 }
             }
@@ -157,8 +177,7 @@ namespace ASFProfileConverter
                         //创建配置文件
                         string configPath = Path.Combine(asfFolder, accountName + ".json");
                         using var asfStream = File.Open(configPath, FileMode.OpenOrCreate, FileAccess.Write);
-                        var configJson = new ASFConfigData
-                        {
+                        var configJson = new ASFConfigData {
                             SteamLogin = accountName,
                             SteamPassword = accountPasswd,
                         };
@@ -287,7 +306,7 @@ namespace ASFProfileConverter
 
         private void tsAuthor_Click(object sender, EventArgs e)
         {
-            const string target = "https://github.com/chr233/";
+            const string target = "https://steamcommunity.com/id/Chr_/";
             OpenLink(target);
         }
 
@@ -303,5 +322,16 @@ namespace ASFProfileConverter
             OpenLink(target);
         }
 
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("将会覆盖当前的模板, 确定吗?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                var configJson = new ASFConfigData {
+                    SteamLogin = "$$LOGIN$$",
+                    SteamPassword = "$$PASSWD$$",
+                };
+                txtBotModel.Text = JsonSerializer.Serialize(configJson, _jsonOption);
+            }
+        }
     }
 }
