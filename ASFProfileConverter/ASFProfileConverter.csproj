@@ -1,12 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
 
 
 	<ItemGroup>
@@ -15,19 +12,32 @@
 
 
 	<ItemGroup>
-	  <Compile Update="Langs.Designer.cs">
+	  <Compile Update="Properties\Resources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Langs.resx</DependentUpon>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Properties\GlobalConfig.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>GlobalConfig.settings</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Langs.resx">
+	  <EmbeddedResource Update="Properties\Resources.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Langs.Designer.cs</LastGenOutput>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <None Update="Properties\GlobalConfig.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>GlobalConfig.Designer.cs</LastGenOutput>
+	  </None>
 	</ItemGroup>
 
 </Project>

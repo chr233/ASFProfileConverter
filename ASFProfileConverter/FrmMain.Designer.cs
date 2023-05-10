@@ -253,6 +253,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmMain";
             Text = "SDA令牌ASF配置文件批量转换 - By Chr_ 2023";
+            FormClosing += FrmMain_FormClosing;
             Load += FrmMain_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

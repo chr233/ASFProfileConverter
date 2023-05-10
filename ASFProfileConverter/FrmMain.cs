@@ -1,3 +1,4 @@
+using ASFProfileConverter.Properties;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -22,11 +23,30 @@ namespace ASFProfileConverter
             tsVersion.Text = $"版本: {version}";
             tsGithub.Text = "获取源码";
 
-            var configJson = new ASFConfigData {
-                SteamLogin = "$$LOGIN$$",
-                SteamPassword = "$$PASSWD$$",
-            };
-            txtBotModel.Text = JsonSerializer.Serialize(configJson, _jsonOption);
+            var botModel = GlobalConfig.Default.BotModel;
+            if (string.IsNullOrEmpty(botModel))
+            {
+                var configJson = new ASFConfigData
+                {
+                    SteamLogin = "$$LOGIN$$",
+                    SteamPassword = "$$PASSWD$$",
+                };
+                botModel = JsonSerializer.Serialize(configJson, _jsonOption);
+            }
+            txtBotModel.Text = botModel;
+
+            txtMaFolder.Text = GlobalConfig.Default.MaFolder;
+            txtASFFolder.Text = GlobalConfig.Default.ASFFolder;
+            txtBotAccoutns.Text = GlobalConfig.Default.BotAccounts;
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            GlobalConfig.Default.MaFolder = txtMaFolder.Text;
+            GlobalConfig.Default.ASFFolder = txtASFFolder.Text;
+            GlobalConfig.Default.BotAccounts = txtBotAccoutns.Text;
+            GlobalConfig.Default.BotModel = txtBotModel.Text;
+            GlobalConfig.Default.Save();
         }
 
         private void btnMaFolder_Click(object sender, EventArgs e)
@@ -120,8 +140,8 @@ namespace ASFProfileConverter
                     }
                 }
 
-                string login = texts[0];
-                string passwd = texts[1];
+                string login = texts[0].Trim();
+                string passwd = texts[1].Trim();
                 botDict.Add(login, passwd);
             }
 
@@ -148,13 +168,16 @@ namespace ASFProfileConverter
                             {
                                 //复制令牌
                                 string maPath = Path.Combine(asfFolder, accountName + ".maFile");
-                                File.Copy(filePath, maPath, true);
+                                if (maPath != filePath)
+                                {
+                                    File.Copy(filePath, maPath, true);
+                                }
 
                                 //创建配置文件
                                 string configPath = Path.Combine(asfFolder, accountName + ".json");
                                 bool exist = File.Exists(configPath);
                                 using var asfStream = File.Open(configPath, exist ? FileMode.Truncate : FileMode.CreateNew, FileAccess.Write);
-                                var configJson = botModel.Replace(Langs.Login, accountName).Replace(Langs.Passwd, accountPasswd);
+                                var configJson = botModel.Replace(Resources.Login, accountName).Replace(Resources.Passwd, accountPasswd);
                                 await asfStream.WriteAsync(Encoding.UTF8.GetBytes(configJson));
                                 await asfStream.FlushAsync();
                                 convertedBotNames.Add(accountName);
@@ -180,7 +203,7 @@ namespace ASFProfileConverter
                         string configPath = Path.Combine(asfFolder, accountName + ".json");
                         bool exist = File.Exists(configPath);
                         using var asfStream = File.Open(configPath, exist ? FileMode.Truncate : FileMode.CreateNew, FileAccess.Write);
-                        var configJson = botModel.Replace(Langs.Login, accountName).Replace(Langs.Passwd, accountPasswd);
+                        var configJson = botModel.Replace(Resources.Login, accountName).Replace(Resources.Passwd, accountPasswd);
                         await asfStream.WriteAsync(Encoding.UTF8.GetBytes(configJson));
                         await asfStream.FlushAsync();
                         convertedBotNames.Add(accountName);
@@ -332,12 +355,14 @@ namespace ASFProfileConverter
         {
             if (MessageBox.Show("将会覆盖当前的模板, 确定吗?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
-                var configJson = new ASFConfigData {
+                var configJson = new ASFConfigData
+                {
                     SteamLogin = "$$LOGIN$$",
                     SteamPassword = "$$PASSWD$$",
                 };
                 txtBotModel.Text = JsonSerializer.Serialize(configJson, _jsonOption);
             }
         }
+
     }
 }
