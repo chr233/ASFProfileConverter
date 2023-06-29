@@ -26,8 +26,7 @@ namespace ASFProfileConverter
             var botModel = GlobalConfig.Default.BotModel;
             if (string.IsNullOrEmpty(botModel))
             {
-                var configJson = new ASFConfigData
-                {
+                var configJson = new ASFConfigData {
                     SteamLogin = "$$LOGIN$$",
                     SteamPassword = "$$PASSWD$$",
                 };
@@ -113,10 +112,10 @@ namespace ASFProfileConverter
             }
 
 
-            Dictionary<string, string> botDict = new();
-            HashSet<string> convertedBotNames = new();
+            var botDict = new Dictionary<string, string>();
+            var convertedBotNames = new HashSet<string>();
 
-            StringBuilder sb = new();
+            var sb = new StringBuilder();
 
             var lines = botAccounts.Split('\n');
             foreach (var line in lines)
@@ -140,7 +139,7 @@ namespace ASFProfileConverter
                     }
                 }
 
-                string login = texts[0].Trim();
+                string login = texts[0].Trim().ToLower();
                 string passwd = texts[1].Trim();
                 botDict.Add(login, passwd);
             }
@@ -164,7 +163,7 @@ namespace ASFProfileConverter
                         if (maJson?.AccountName != null)
                         {
                             var accountName = maJson.AccountName;
-                            if (botDict.TryGetValue(accountName, out string? accountPasswd) && !convertedBotNames.Contains(accountName))
+                            if (botDict.TryGetValue(accountName.ToLower(), out string? accountPasswd) && !convertedBotNames.Contains(accountName))
                             {
                                 //复制令牌
                                 string maPath = Path.Combine(asfFolder, accountName + ".maFile");
@@ -266,8 +265,8 @@ namespace ASFProfileConverter
                     }
                 }
 
-                string login = texts[0];
-                string passwd = texts[1];
+                string login = texts[0].Trim().ToLower();
+                string passwd = texts[1].Trim();
                 botDict.Add(login, passwd);
             }
 
@@ -293,7 +292,7 @@ namespace ASFProfileConverter
                         if (maJson?.AccountName != null)
                         {
                             var accountName = maJson.AccountName;
-                            if (botDict.TryGetValue(accountName, out string? accountPasswd))
+                            if (botDict.TryGetValue(accountName.ToLower(), out string? accountPasswd))
                             {
                                 sb.AppendLine(string.Format("{0},{1},{2}", accountName, accountPasswd, maJson.SharedSecret));
                                 convertedBotNames.Add(accountName);
@@ -355,8 +354,7 @@ namespace ASFProfileConverter
         {
             if (MessageBox.Show("将会覆盖当前的模板, 确定吗?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
-                var configJson = new ASFConfigData
-                {
+                var configJson = new ASFConfigData {
                     SteamLogin = "$$LOGIN$$",
                     SteamPassword = "$$PASSWD$$",
                 };

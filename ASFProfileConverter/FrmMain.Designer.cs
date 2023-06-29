@@ -46,11 +46,16 @@
             groupBox4 = new GroupBox();
             btnReset = new Button();
             txtBotModel = new TextBox();
+            rbLower = new RadioButton();
+            rbUpper = new RadioButton();
+            rbAccount = new RadioButton();
+            groupBox5 = new GroupBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             sS.SuspendLayout();
             groupBox4.SuspendLayout();
+            groupBox5.SuspendLayout();
             SuspendLayout();
             // 
             // txtMaFolder
@@ -88,9 +93,9 @@
             // btnConvert
             // 
             btnConvert.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnConvert.Location = new Point(534, 83);
+            btnConvert.Location = new Point(534, 147);
             btnConvert.Name = "btnConvert";
-            btnConvert.Size = new Size(148, 48);
+            btnConvert.Size = new Size(148, 46);
             btnConvert.TabIndex = 2;
             btnConvert.Text = "生成机器人配置";
             btnConvert.UseVisualStyleBackColor = true;
@@ -100,9 +105,9 @@
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(txtBotAccoutns);
-            groupBox2.Location = new Point(12, 137);
+            groupBox2.Location = new Point(12, 198);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(670, 303);
+            groupBox2.Size = new Size(670, 309);
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "机器人账号密码信息，一行一个，支持中英文逗号或者空格分隔";
@@ -115,7 +120,7 @@
             txtBotAccoutns.Name = "txtBotAccoutns";
             txtBotAccoutns.PlaceholderText = "登录名 , 密码";
             txtBotAccoutns.ScrollBars = ScrollBars.Vertical;
-            txtBotAccoutns.Size = new Size(655, 275);
+            txtBotAccoutns.Size = new Size(655, 281);
             txtBotAccoutns.TabIndex = 0;
             // 
             // groupBox3
@@ -164,7 +169,7 @@
             // sS
             // 
             sS.Items.AddRange(new ToolStripItem[] { tsAuthor, tsGithub, tsVersion });
-            sS.Location = new Point(0, 610);
+            sS.Location = new Point(0, 677);
             sS.Name = "sS";
             sS.Size = new Size(694, 22);
             sS.TabIndex = 5;
@@ -209,7 +214,7 @@
             groupBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox4.Controls.Add(btnReset);
             groupBox4.Controls.Add(txtBotModel);
-            groupBox4.Location = new Point(12, 446);
+            groupBox4.Location = new Point(12, 513);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(670, 161);
             groupBox4.TabIndex = 6;
@@ -238,11 +243,56 @@
             txtBotModel.Size = new Size(658, 133);
             txtBotModel.TabIndex = 0;
             // 
+            // rbLower
+            // 
+            rbLower.AutoSize = true;
+            rbLower.Location = new Point(6, 22);
+            rbLower.Name = "rbLower";
+            rbLower.Size = new Size(86, 21);
+            rbLower.TabIndex = 7;
+            rbLower.Text = "转换成小写";
+            rbLower.UseVisualStyleBackColor = true;
+            // 
+            // rbUpper
+            // 
+            rbUpper.AutoSize = true;
+            rbUpper.Location = new Point(98, 22);
+            rbUpper.Name = "rbUpper";
+            rbUpper.Size = new Size(86, 21);
+            rbUpper.TabIndex = 8;
+            rbUpper.Text = "转换成大写";
+            rbUpper.UseVisualStyleBackColor = true;
+            // 
+            // rbAccount
+            // 
+            rbAccount.AutoSize = true;
+            rbAccount.Checked = true;
+            rbAccount.Location = new Point(190, 22);
+            rbAccount.Name = "rbAccount";
+            rbAccount.Size = new Size(134, 21);
+            rbAccount.TabIndex = 9;
+            rbAccount.TabStop = true;
+            rbAccount.Text = "遵循输入的账号格式";
+            rbAccount.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(rbAccount);
+            groupBox5.Controls.Add(rbLower);
+            groupBox5.Controls.Add(rbUpper);
+            groupBox5.Location = new Point(12, 137);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(509, 55);
+            groupBox5.TabIndex = 10;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "ASF机器人命名格式";
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(694, 632);
+            ClientSize = new Size(694, 699);
+            Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(sS);
             Controls.Add(groupBox3);
@@ -265,6 +315,8 @@
             sS.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -288,5 +340,9 @@
         private GroupBox groupBox4;
         private Button btnReset;
         private TextBox txtBotModel;
+        private RadioButton rbLower;
+        private RadioButton rbUpper;
+        private RadioButton rbAccount;
+        private GroupBox groupBox5;
     }
 }
