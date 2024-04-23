@@ -1,4 +1,5 @@
 using ASFProfileConverter.Properties;
+
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -144,7 +145,7 @@ namespace ASFProfileConverter
                 botDict.Add(login, passwd);
             }
 
-            var filePaths = Directory.EnumerateFiles(maFolder, "*.maFile");
+            var filePaths = Directory.EnumerateFiles(maFolder, "*.maFile", SearchOption.AllDirectories);
             if (!filePaths.Any())
             {
                 if (MessageBox.Show("令牌文件夹下未找到可用令牌 (需要以 .maFile 结尾)\r\n确认 - 继续运行, 取消 - 终止操作", "错误", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
