@@ -26,7 +26,7 @@
 		<RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
 		<RollForward>LatestMajor</RollForward>
 		<TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 	</PropertyGroup>
 
 	  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
