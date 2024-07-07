@@ -142,7 +142,7 @@ namespace ASFProfileConverter
 
                 string login = texts[0].Trim().ToLower();
                 string passwd = texts[1].Trim();
-                botDict.Add(login, passwd);
+                botDict.TryAdd(login, passwd);
             }
 
             var filePaths = Directory.EnumerateFiles(maFolder, "*.maFile", SearchOption.AllDirectories);
@@ -268,7 +268,7 @@ namespace ASFProfileConverter
 
                 string login = texts[0].Trim().ToLower();
                 string passwd = texts[1].Trim();
-                botDict.Add(login, passwd);
+                botDict.TryAdd(login, passwd);
             }
 
             StringBuilder sb = new();
