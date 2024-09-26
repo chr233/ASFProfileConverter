@@ -162,7 +162,7 @@
             // btnToForm
             // 
             btnToForm.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnToForm.Location = new Point(534, 21);
+            btnToForm.Location = new Point(534, 117);
             btnToForm.Name = "btnToForm";
             btnToForm.Size = new Size(148, 36);
             btnToForm.TabIndex = 2;
@@ -299,7 +299,7 @@
             picDonate.Image = Properties.Resources.donate;
             picDonate.Location = new Point(3, 19);
             picDonate.Name = "picDonate";
-            picDonate.Size = new Size(142, 68);
+            picDonate.Size = new Size(142, 77);
             picDonate.SizeMode = PictureBoxSizeMode.Zoom;
             picDonate.TabIndex = 11;
             picDonate.TabStop = false;
@@ -307,10 +307,11 @@
             // 
             // groupBox6
             // 
+            groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox6.Controls.Add(picDonate);
-            groupBox6.Location = new Point(534, 63);
+            groupBox6.Location = new Point(534, 12);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(148, 90);
+            groupBox6.Size = new Size(148, 99);
             groupBox6.TabIndex = 12;
             groupBox6.TabStop = false;
             groupBox6.Text = "赞助";
