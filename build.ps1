@@ -38,7 +38,7 @@ foreach ($variant in $variants) {
 foreach ($job in $jobs) {
     Wait-Job -Job $job
 }
-
+x
 # 获取任务的输�?
 foreach ($job in $jobs) {
     Receive-Job -Job $job

@@ -363,5 +363,10 @@ namespace ASFProfileConverter
             }
         }
 
+        private void picDonate_Click(object sender, EventArgs e)
+        {
+            const string target = "https://afdian.com/@chr233";
+            OpenLink(target);
+        }
     }
 }

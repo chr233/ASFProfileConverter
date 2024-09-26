@@ -50,12 +50,16 @@
             rbUpper = new RadioButton();
             rbAccount = new RadioButton();
             groupBox5 = new GroupBox();
+            picDonate = new PictureBox();
+            groupBox6 = new GroupBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             sS.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picDonate).BeginInit();
+            groupBox6.SuspendLayout();
             SuspendLayout();
             // 
             // txtMaFolder
@@ -93,9 +97,9 @@
             // btnConvert
             // 
             btnConvert.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnConvert.Location = new Point(534, 147);
+            btnConvert.Location = new Point(534, 159);
             btnConvert.Name = "btnConvert";
-            btnConvert.Size = new Size(148, 46);
+            btnConvert.Size = new Size(148, 34);
             btnConvert.TabIndex = 2;
             btnConvert.Text = "生成机器人配置";
             btnConvert.UseVisualStyleBackColor = true;
@@ -160,7 +164,7 @@
             btnToForm.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnToForm.Location = new Point(534, 21);
             btnToForm.Name = "btnToForm";
-            btnToForm.Size = new Size(148, 46);
+            btnToForm.Size = new Size(148, 36);
             btnToForm.TabIndex = 2;
             btnToForm.Text = "生成账密表格";
             btnToForm.UseVisualStyleBackColor = true;
@@ -277,6 +281,7 @@
             // 
             // groupBox5
             // 
+            groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox5.Controls.Add(rbAccount);
             groupBox5.Controls.Add(rbLower);
             groupBox5.Controls.Add(rbUpper);
@@ -287,11 +292,35 @@
             groupBox5.TabStop = false;
             groupBox5.Text = "ASF机器人命名格式";
             // 
+            // picDonate
+            // 
+            picDonate.Cursor = Cursors.Hand;
+            picDonate.Dock = DockStyle.Fill;
+            picDonate.Image = Properties.Resources.donate;
+            picDonate.Location = new Point(3, 19);
+            picDonate.Name = "picDonate";
+            picDonate.Size = new Size(142, 68);
+            picDonate.SizeMode = PictureBoxSizeMode.Zoom;
+            picDonate.TabIndex = 11;
+            picDonate.TabStop = false;
+            picDonate.Click += picDonate_Click;
+            // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(picDonate);
+            groupBox6.Location = new Point(534, 63);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(148, 90);
+            groupBox6.TabIndex = 12;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "赞助";
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(694, 699);
+            Controls.Add(groupBox6);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(sS);
@@ -317,6 +346,8 @@
             groupBox4.PerformLayout();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picDonate).EndInit();
+            groupBox6.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -344,5 +375,7 @@
         private RadioButton rbUpper;
         private RadioButton rbAccount;
         private GroupBox groupBox5;
+        private PictureBox picDonate;
+        private GroupBox groupBox6;
     }
 }
