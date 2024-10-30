@@ -125,7 +125,7 @@ namespace ASFProfileConverter
                     continue;
                 }
 
-                var texts = line.Trim().Split(new char[] { ',', '，', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                var texts = line.Trim().Split(separator, StringSplitOptions.RemoveEmptyEntries);
 
                 if (texts.Length < 2)
                 {
@@ -251,7 +251,7 @@ namespace ASFProfileConverter
                     continue;
                 }
 
-                var texts = line.Trim().Split(new char[] { ',', '，', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                var texts = line.Trim().Split(separator, StringSplitOptions.RemoveEmptyEntries);
 
                 if (texts.Length < 2)
                 {
@@ -434,6 +434,8 @@ namespace ASFProfileConverter
                 MessageBox.Show($"修补完成, 成功 {success} , 失败 {error}", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
+        private static readonly char[] separator = new char[] { ',', '，', ' ', '\t' };
 
         private void common_DragEnter(object sender, DragEventArgs e)
         {
