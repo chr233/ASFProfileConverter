@@ -31,7 +31,7 @@ jobs:
 
       - name: Verify .NET Core
         run: dotnet --info
-      
+
       - name: Restore packages in preparation for ${{ env.PROJECT_NAME }} publishing
         run: dotnet restore ${{ env.PROJECT_NAME }} -p:ContinuousIntegrationBuild=true --nologo
 
@@ -54,9 +54,9 @@ jobs:
 
           $commonArgStr = $commonArgs -join " "
 
-          dotnet publish ${{ env.PROJECT_NAME }} -o "./tmp/${{ env.PROJECT_NAME }}-fde" $commonArgStr --self-contained=true 
-          dotnet publish ${{ env.PROJECT_NAME }} -o "./tmp/${{ env.PROJECT_NAME }}" $commonArgStr --self-contained=false
-      
+          Invoke-Expression "dotnet publish ${{ env.PROJECT_NAME }} -o './tmp/${{ env.PROJECT_NAME }}-fde' $commonArgStr --self-contained=true"
+          Invoke-Expression "dotnet publish ${{ env.PROJECT_NAME }} -o './tmp/${{ env.PROJECT_NAME }}' $commonArgStr --self-contained=false"
+
       - name: Clean Xmls
         shell: pwsh
         run: |
@@ -135,5 +135,3 @@ jobs:
 
             > 带 `fde` 表示可执行文件内置 .net 框架, 可以脱离框架运行, 但是体积比较大
             > 如果电脑上已经安装过 .net 框架, 可以下载不带 `fde` 的版本, 节约硬盘空间
-
-
