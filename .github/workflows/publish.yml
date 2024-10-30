@@ -20,39 +20,48 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v4.1.7
         with:
           submodules: recursive
 
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v2.1.0
+        uses: actions/setup-dotnet@v4.0.1
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Verify .NET Core
         run: dotnet --info
+      
+      - name: Restore packages in preparation for ${{ env.PROJECT_NAME }} publishing
+        run: dotnet restore ${{ env.PROJECT_NAME }} -p:ContinuousIntegrationBuild=true --nologo
 
-      - name: Install dotnet-format
-        run: dotnet tool install -g dotnetCampus.EncodingNormalior
-
-      - name: Prepare for publishing ${{ env.PROJECT_NAME }}
-        shell: pwsh
-        run: |
-          dotnet restore
-          dotnet build ${{ env.PROJECT_NAME }} -c "$env:CONFIGURATION" -p:ContinuousIntegrationBuild=true -p:TargetLatestRuntimePatch=false -p:UseAppHost=false --no-restore --nologo
+      - name: Publish ${{ env.PROJECT_NAME }}
+        run: dotnet publish ${{ env.PROJECT_NAME }} -o:"./publish/" -c:Release
 
       - name: Publish ${{ env.PROJECT_NAME }} ${{ matrix.arch }}
         shell: pwsh
         run: |
-          $variant = '${{ matrix.arch }}'
+          $commonArgs = @(
+            "-r:${{ matrix.arch }}",
+            "-c:${{ env.CONFIGURATION }}",
+            "-p:PublishTrimmed=false",
+            "-p:PublishSingleFile=true",
+            "-p:IncludeNativeLibrariesForSelfExtract=true",
+            "-p:ContinuousIntegrationBuild=true",
+            "--no-restore",
+            "--nologo",
+          )
 
-          $commonArgs = '-p:PublishTrimmed=false'
+          $commonArgStr = $commonArgs -join " "
 
-          $buildArgs = '-r', "$variant", '-p:PublishSingleFile=true', '-p:IncludeNativeLibrariesForSelfExtract=true'
-
-          dotnet publish ${{ env.PROJECT_NAME }} -c "$env:CONFIGURATION" -o "./tmp/${{ env.PROJECT_NAME }}-fde" --self-contained=true -p:XJBVariant="$variant" -p:ContinuousIntegrationBuild=true --no-restore --nologo $commonArgs $buildArgs
-
-          dotnet publish ${{ env.PROJECT_NAME }} -c "$env:CONFIGURATION" -o "./tmp/${{ env.PROJECT_NAME }}" --self-contained=false -p:XJBVariant="$variant" -p:ContinuousIntegrationBuild=true --no-restore --nologo $commonArgs $buildArgs
+          dotnet publish ${{ env.PROJECT_NAME }} -o:"./tmp/${{ env.PROJECT_NAME }}-fde" $commonArgStr --self-contained=true 
+          dotnet publish ${{ env.PROJECT_NAME }} -o "./tmp/${{ env.PROJECT_NAME }}" $commonArgStr --self-contained=false
+      
+      - name: Clean Xmls
+        shell: pwsh
+        run: |
+          Remove-Item "./tmp/${{ env.PROJECT_NAME }}-fde/*.xml" 
+          Remove-Item "./tmp/${{ env.PROJECT_NAME }}/*.xml"
 
       - name: Zip files
         run: |
@@ -61,14 +70,14 @@ jobs:
 
       - name: Upload ${{ env.PROJECT_NAME }}-fde ${{ matrix.arch }}
         continue-on-error: true
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: ${{ matrix.arch }}-fde
           path: ./dist/${{ matrix.arch }}-fde.zip
 
       - name: Upload ${{ env.PROJECT_NAME }} ${{ matrix.arch }}
         continue-on-error: true
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: ${{ matrix.arch }}
           path: ./dist/${{ matrix.arch }}.zip
@@ -79,83 +88,52 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v4.1.7
 
       - name: Download win-x64-fde artifact
         continue-on-error: true
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: win-x64-fde
           path: out
 
       - name: Download win-x64 artifact
         continue-on-error: true
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: win-x64
           path: out
 
       - name: Download win-arm64-fde artifact
         continue-on-error: true
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: win-arm64-fde
           path: out
 
       - name: Download win-arm64 artifact
         continue-on-error: true
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v4.1.8
         with:
           name: win-arm64
           path: out
 
       - name: Create ${{ env.PROJECT_NAME }} GitHub release
-        id: github_release
-        uses: actions/create-release@v1.1.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: ${{ env.PROJECT_NAME }} ${{ github.ref_name }}
+        uses: ncipollo/release-action@v1.14.0
+            with:
+          artifacts: "out/*"
+          makeLatest: false
           prerelease: true
-          body_path: .github/RELEASE_TEMPLATE.md
+          tag: ${{ github.ref_name }}
+          name: ${{ env.PROJECT_NAME }} ${{ github.ref_name }}
+          body: |
+            # 更新说明
 
-      - name: Upload ${{ env.PROJECT_NAME }}-win-x64-fde to GitHub release
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.github_release.outputs.upload_url }}
-          asset_path: out/win-x64-fde.zip
-          asset_name: ${{ env.PROJECT_NAME }}-win-x64-fde.zip
-          asset_content_type: application/zip
+            release created bt github actions
 
-      - name: Upload ${{ env.PROJECT_NAME }}-win-x64 to GitHub release
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.github_release.outputs.upload_url }}
-          asset_path: out/win-x64.zip
-          asset_name: ${{ env.PROJECT_NAME }}-win-x64.zip
-          asset_content_type: application/zip
+            ---
 
-      - name: Upload ${{ env.PROJECT_NAME }}-win-arm64-fde to GitHub release
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.github_release.outputs.upload_url }}
-          asset_path: out/win-arm64-fde.zip
-          asset_name: ${{ env.PROJECT_NAME }}-win-arm64-fde.zip
-          asset_content_type: application/zip
+            > 带 `fde` 表示可执行文件内置 .net 框架, 可以脱离框架运行, 但是体积比较大
+            > 如果电脑上已经安装过 .net 框架, 可以下载不带 `fde` 的版本, 节约硬盘空间
 
-      - name: Upload ${{ env.PROJECT_NAME }}-win-arm64 to GitHub release
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.github_release.outputs.upload_url }}
-          asset_path: out/win-arm64.zip
-          asset_name: ${{ env.PROJECT_NAME }}-win-arm64.zip
-          asset_content_type: application/zip
+

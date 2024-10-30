@@ -1,5 +1,6 @@
 <Project>
-	<ItemGroup>
-		<PackageVersion Include="protobuf-net" Version="3.2.16" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="protobuf-net" Version="3.2.16" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.5" />
+  </ItemGroup>
 </Project>

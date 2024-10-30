@@ -15,5 +15,7 @@ namespace ASFProfileConverter
 
         [JsonPropertyName("revocation_code")]
         public string? RevocationCode { get; set; }
+        [JsonPropertyName("identity_secret")]
+        public string IdentitySecret { get; set; }
     }
 }

@@ -1,3 +1,6 @@
+using System.Reflection;
+using System.Runtime.Versioning;
+
 namespace ASFProfileConverter
 {
     internal static class Program
@@ -13,5 +16,19 @@ namespace ASFProfileConverter
             ApplicationConfiguration.Initialize();
             Application.Run(new FrmMain());
         }
+
+        /// <summary>
+        /// 可执行文件
+        /// </summary>
+        private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
+
+        /// <summary>
+        /// 版本
+        /// </summary>
+        public static string? Version => _assembly.GetName().Version?.ToString();
+        /// <summary>
+        /// 框架
+        /// </summary>
+        public static string? FrameworkName => _assembly.GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkDisplayName;
     }
 }

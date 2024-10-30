@@ -34,12 +34,10 @@ foreach ($variant in $variants) {
     # } -ArgumentList $variant
 }
 
-# 等待所有后台任务完�?
 foreach ($job in $jobs) {
     Wait-Job -Job $job
 }
-x
-# 获取任务的输�?
+
 foreach ($job in $jobs) {
     Receive-Job -Job $job
 }

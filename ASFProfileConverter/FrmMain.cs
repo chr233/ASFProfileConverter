@@ -1,7 +1,6 @@
 using ASFProfileConverter.Properties;
 
 using System.Diagnostics;
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 
@@ -13,16 +12,16 @@ namespace ASFProfileConverter
         public FrmMain()
         {
             InitializeComponent();
-
             _jsonOption = new JsonSerializerOptions { WriteIndented = true };
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
             tsAuthor.Text = "作者: Chr_";
-            var version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version("0.0.0.0");
-            tsVersion.Text = $"版本: {version}";
+            tsVersion.Text = $"版本: {Program.Version}";
             tsGithub.Text = "获取源码";
+
+            Text += $"- {Program.Version} - {Program.FrameworkName}";
 
             var botModel = GlobalConfig.Default.BotModel;
             if (string.IsNullOrEmpty(botModel))
@@ -302,7 +301,7 @@ namespace ASFProfileConverter
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "text");
+                        MessageBox.Show($"读取令牌出错: {ex.Message}", "出错");
                     }
                 }
             }
@@ -367,6 +366,132 @@ namespace ASFProfileConverter
         {
             const string target = "https://afdian.com/@chr233";
             OpenLink(target);
+        }
+
+        private async void btnFixMaFile_Click(object sender, EventArgs e)
+        {
+            string maFolder = txtMaFolder.Text;
+            string asfFolder = txtASFFolder.Text;
+
+            if (!Path.Exists(maFolder))
+            {
+                MessageBox.Show("令牌文件夹路径不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtMaFolder.Focus();
+                return;
+            }
+            if (!Path.Exists(asfFolder))
+            {
+                MessageBox.Show("输出文件夹路径不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtASFFolder.Focus();
+                return;
+            }
+
+            var filePaths = Directory.EnumerateFiles(maFolder, "*.maFile");
+            if (!filePaths.Any())
+            {
+                if (MessageBox.Show("令牌文件夹下未找到可用令牌 (需要以 .maFile 结尾)\r\n确认 - 继续运行, 取消 - 终止操作", "错误", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                int success = 0;
+                int error = 0;
+                foreach (var filePath in filePaths)
+                {
+                    try
+                    {
+                        using var maStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        var maJson = JsonSerializer.Deserialize<MaFileData>(maStream);
+
+                        if (!string.IsNullOrEmpty(maJson?.SharedSecret))
+                        {
+                            if (string.IsNullOrEmpty(maJson.IdentitySecret))
+                            {
+                                maJson.IdentitySecret = "fake";
+                            }
+
+                            var newPath = Path.Combine(asfFolder, Path.GetFileName(filePath));
+                            if (File.Exists(newPath))
+                            {
+                                File.Delete(newPath);
+                            }
+
+                            using var newStream = File.Open(newPath, FileMode.Create, FileAccess.Write);
+                            await JsonSerializer.SerializeAsync(newStream, maJson);
+
+                            success++;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"读取令牌出错: {ex.Message}", "出错", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        error++;
+                    }
+                }
+
+                MessageBox.Show($"修补完成, 成功 {success} , 失败 {error}", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void common_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private async void common_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                if (e.Data.GetData(DataFormats.FileDrop) is string[] files && files.Length > 0)
+                {
+                    if (sender is TextBox txtBox)
+                    {
+                        if (txtBox.Name != txtBotAccoutns.Name)
+                        {
+                            var path = files[0];
+                            if (!Directory.Exists(path) && File.Exists(path))
+                            {
+                                path = Path.GetDirectoryName(path);
+                            }
+                            txtBox.Text = path;
+                        }
+                        else
+                        {
+                            foreach (var file in files)
+                            {
+                                if (Directory.Exists(file) && !File.Exists(file))
+                                {
+                                    continue;
+                                }
+
+                                if (txtBox.Text.Length > 0)
+                                {
+                                    txtBox.Text += "\r\n\r\n";
+                                }
+
+                                try
+                                {
+                                    var text = await File.ReadAllTextAsync(file);
+                                    txtBox.Text += text;
+                                }
+                                catch (Exception ex)
+                                {
+                                    txtBox.Text += $"读取文件{file}出错:{ex.Message}";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -30,12 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             txtMaFolder = new TextBox();
-            groupBox1 = new GroupBox();
             btnMaFolder = new Button();
             btnConvert = new Button();
             groupBox2 = new GroupBox();
             txtBotAccoutns = new TextBox();
-            groupBox3 = new GroupBox();
             btnASFFolder = new Button();
             txtASFFolder = new TextBox();
             btnToForm = new Button();
@@ -49,46 +47,39 @@
             rbLower = new RadioButton();
             rbUpper = new RadioButton();
             rbAccount = new RadioButton();
-            groupBox5 = new GroupBox();
             picDonate = new PictureBox();
             groupBox6 = new GroupBox();
-            groupBox1.SuspendLayout();
+            btnFixMaFile = new Button();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            panel1 = new Panel();
             groupBox2.SuspendLayout();
-            groupBox3.SuspendLayout();
             sS.SuspendLayout();
             groupBox4.SuspendLayout();
-            groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picDonate).BeginInit();
             groupBox6.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // txtMaFolder
             // 
+            txtMaFolder.AllowDrop = true;
             txtMaFolder.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtMaFolder.Location = new Point(6, 22);
+            txtMaFolder.Location = new Point(148, 12);
             txtMaFolder.Name = "txtMaFolder";
             txtMaFolder.PlaceholderText = "包含maFile文件的目录";
-            txtMaFolder.Size = new Size(416, 23);
+            txtMaFolder.Size = new Size(407, 23);
             txtMaFolder.TabIndex = 0;
-            // 
-            // groupBox1
-            // 
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(btnMaFolder);
-            groupBox1.Controls.Add(txtMaFolder);
-            groupBox1.Location = new Point(12, 12);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(509, 55);
-            groupBox1.TabIndex = 1;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "令牌文件目录";
+            txtMaFolder.DragDrop += common_DragDrop;
+            txtMaFolder.DragEnter += common_DragEnter;
             // 
             // btnMaFolder
             // 
             btnMaFolder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnMaFolder.Location = new Point(428, 22);
+            btnMaFolder.Location = new Point(561, 12);
             btnMaFolder.Name = "btnMaFolder";
-            btnMaFolder.Size = new Size(75, 23);
+            btnMaFolder.Size = new Size(48, 23);
             btnMaFolder.TabIndex = 1;
             btnMaFolder.Text = "…";
             btnMaFolder.UseVisualStyleBackColor = true;
@@ -96,12 +87,11 @@
             // 
             // btnConvert
             // 
-            btnConvert.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnConvert.Location = new Point(534, 159);
+            btnConvert.Location = new Point(12, 101);
             btnConvert.Name = "btnConvert";
-            btnConvert.Size = new Size(148, 34);
-            btnConvert.TabIndex = 2;
-            btnConvert.Text = "生成机器人配置";
+            btnConvert.Size = new Size(148, 36);
+            btnConvert.TabIndex = 7;
+            btnConvert.Text = "&G. 生成机器人配置";
             btnConvert.UseVisualStyleBackColor = true;
             btnConvert.Click += btnConvert_Click;
             // 
@@ -109,73 +99,67 @@
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(txtBotAccoutns);
-            groupBox2.Location = new Point(12, 198);
+            groupBox2.Location = new Point(12, 143);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(670, 309);
-            groupBox2.TabIndex = 3;
+            groupBox2.Size = new Size(751, 178);
+            groupBox2.TabIndex = 10;
             groupBox2.TabStop = false;
-            groupBox2.Text = "机器人账号密码信息，一行一个，支持中英文逗号或者空格分隔";
+            groupBox2.Text = "&4. 机器人账号密码信息，一行一个，支持中英文逗号或者空格分隔";
             // 
             // txtBotAccoutns
             // 
+            txtBotAccoutns.AllowDrop = true;
             txtBotAccoutns.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             txtBotAccoutns.Location = new Point(6, 22);
             txtBotAccoutns.Multiline = true;
             txtBotAccoutns.Name = "txtBotAccoutns";
             txtBotAccoutns.PlaceholderText = "登录名 , 密码";
             txtBotAccoutns.ScrollBars = ScrollBars.Vertical;
-            txtBotAccoutns.Size = new Size(655, 281);
-            txtBotAccoutns.TabIndex = 0;
-            // 
-            // groupBox3
-            // 
-            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox3.Controls.Add(btnASFFolder);
-            groupBox3.Controls.Add(txtASFFolder);
-            groupBox3.Location = new Point(12, 73);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(509, 58);
-            groupBox3.TabIndex = 4;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "输出文件目录";
+            txtBotAccoutns.Size = new Size(736, 150);
+            txtBotAccoutns.TabIndex = 10;
+            txtBotAccoutns.DragDrop += common_DragDrop;
+            txtBotAccoutns.DragEnter += common_DragEnter;
             // 
             // btnASFFolder
             // 
             btnASFFolder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnASFFolder.Location = new Point(428, 22);
+            btnASFFolder.Location = new Point(561, 41);
             btnASFFolder.Name = "btnASFFolder";
-            btnASFFolder.Size = new Size(75, 23);
-            btnASFFolder.TabIndex = 1;
+            btnASFFolder.Size = new Size(48, 23);
+            btnASFFolder.TabIndex = 3;
             btnASFFolder.Text = "…";
             btnASFFolder.UseVisualStyleBackColor = true;
             btnASFFolder.Click += btnASFFolder_Click;
             // 
             // txtASFFolder
             // 
+            txtASFFolder.AllowDrop = true;
             txtASFFolder.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtASFFolder.Location = new Point(6, 22);
+            txtASFFolder.Location = new Point(148, 41);
             txtASFFolder.Name = "txtASFFolder";
             txtASFFolder.PlaceholderText = "保存ASF机器人配置文件或者表格文件的目录";
-            txtASFFolder.Size = new Size(416, 23);
-            txtASFFolder.TabIndex = 0;
+            txtASFFolder.Size = new Size(407, 23);
+            txtASFFolder.TabIndex = 2;
+            txtASFFolder.DragDrop += common_DragDrop;
+            txtASFFolder.DragEnter += common_DragEnter;
             // 
             // btnToForm
             // 
             btnToForm.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnToForm.Location = new Point(534, 117);
+            btnToForm.Location = new Point(461, 101);
             btnToForm.Name = "btnToForm";
             btnToForm.Size = new Size(148, 36);
-            btnToForm.TabIndex = 2;
-            btnToForm.Text = "生成账密表格";
+            btnToForm.TabIndex = 9;
+            btnToForm.Text = "&T. 生成账密表格";
             btnToForm.UseVisualStyleBackColor = true;
             btnToForm.Click += btnToForm_Click;
             // 
             // sS
             // 
             sS.Items.AddRange(new ToolStripItem[] { tsAuthor, tsGithub, tsVersion });
-            sS.Location = new Point(0, 677);
+            sS.Location = new Point(0, 491);
             sS.Name = "sS";
-            sS.Size = new Size(694, 22);
+            sS.Size = new Size(775, 22);
             sS.TabIndex = 5;
             sS.Text = "statusStrip1";
             // 
@@ -196,7 +180,7 @@
             tsGithub.LinkBehavior = LinkBehavior.HoverUnderline;
             tsGithub.LinkColor = Color.Black;
             tsGithub.Name = "tsGithub";
-            tsGithub.Size = new Size(583, 17);
+            tsGithub.Size = new Size(664, 17);
             tsGithub.Spring = true;
             tsGithub.Text = "获取源码";
             tsGithub.VisitedLinkColor = Color.Black;
@@ -218,21 +202,21 @@
             groupBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox4.Controls.Add(btnReset);
             groupBox4.Controls.Add(txtBotModel);
-            groupBox4.Location = new Point(12, 513);
+            groupBox4.Location = new Point(12, 327);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(670, 161);
-            groupBox4.TabIndex = 6;
+            groupBox4.Size = new Size(751, 161);
+            groupBox4.TabIndex = 11;
             groupBox4.TabStop = false;
-            groupBox4.Text = "ASF机器人配置模板 ($$LOGIN$$ 和 $$PASSWD$$ 将会被自动替换成账号和密码)";
+            groupBox4.Text = "&5. ASF机器人配置模板 ($$LOGIN$$ 和 $$PASSWD$$ 将会被自动替换成账号和密码)";
             // 
             // btnReset
             // 
             btnReset.Anchor = AnchorStyles.Right;
-            btnReset.Location = new Point(544, 0);
+            btnReset.Location = new Point(596, 0);
             btnReset.Name = "btnReset";
-            btnReset.Size = new Size(120, 23);
-            btnReset.TabIndex = 1;
-            btnReset.Text = "重设为默认模板";
+            btnReset.Size = new Size(149, 23);
+            btnReset.TabIndex = 12;
+            btnReset.Text = "&R. 重设为默认模板";
             btnReset.UseVisualStyleBackColor = true;
             btnReset.Click += btnReset_Click;
             // 
@@ -244,26 +228,28 @@
             txtBotModel.Name = "txtBotModel";
             txtBotModel.PlaceholderText = "{ }";
             txtBotModel.ScrollBars = ScrollBars.Vertical;
-            txtBotModel.Size = new Size(658, 133);
-            txtBotModel.TabIndex = 0;
+            txtBotModel.Size = new Size(739, 133);
+            txtBotModel.TabIndex = 11;
             // 
             // rbLower
             // 
             rbLower.AutoSize = true;
-            rbLower.Location = new Point(6, 22);
+            rbLower.Location = new Point(0, 0);
             rbLower.Name = "rbLower";
             rbLower.Size = new Size(86, 21);
-            rbLower.TabIndex = 7;
+            rbLower.TabIndex = 4;
+            rbLower.TabStop = true;
             rbLower.Text = "转换成小写";
             rbLower.UseVisualStyleBackColor = true;
             // 
             // rbUpper
             // 
             rbUpper.AutoSize = true;
-            rbUpper.Location = new Point(98, 22);
+            rbUpper.Location = new Point(92, 0);
             rbUpper.Name = "rbUpper";
             rbUpper.Size = new Size(86, 21);
-            rbUpper.TabIndex = 8;
+            rbUpper.TabIndex = 5;
+            rbUpper.TabStop = true;
             rbUpper.Text = "转换成大写";
             rbUpper.UseVisualStyleBackColor = true;
             // 
@@ -271,26 +257,13 @@
             // 
             rbAccount.AutoSize = true;
             rbAccount.Checked = true;
-            rbAccount.Location = new Point(190, 22);
+            rbAccount.Location = new Point(184, 0);
             rbAccount.Name = "rbAccount";
             rbAccount.Size = new Size(134, 21);
-            rbAccount.TabIndex = 9;
+            rbAccount.TabIndex = 6;
             rbAccount.TabStop = true;
             rbAccount.Text = "遵循输入的账号格式";
             rbAccount.UseVisualStyleBackColor = true;
-            // 
-            // groupBox5
-            // 
-            groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox5.Controls.Add(rbAccount);
-            groupBox5.Controls.Add(rbLower);
-            groupBox5.Controls.Add(rbUpper);
-            groupBox5.Location = new Point(12, 137);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(509, 55);
-            groupBox5.TabIndex = 10;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "ASF机器人命名格式";
             // 
             // picDonate
             // 
@@ -299,7 +272,7 @@
             picDonate.Image = Properties.Resources.donate;
             picDonate.Location = new Point(3, 19);
             picDonate.Name = "picDonate";
-            picDonate.Size = new Size(142, 77);
+            picDonate.Size = new Size(142, 103);
             picDonate.SizeMode = PictureBoxSizeMode.Zoom;
             picDonate.TabIndex = 11;
             picDonate.TabStop = false;
@@ -309,46 +282,96 @@
             // 
             groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox6.Controls.Add(picDonate);
-            groupBox6.Location = new Point(534, 12);
+            groupBox6.Location = new Point(615, 12);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(148, 99);
+            groupBox6.Size = new Size(148, 125);
             groupBox6.TabIndex = 12;
             groupBox6.TabStop = false;
-            groupBox6.Text = "赞助";
+            groupBox6.Text = "赞助 爱发电 @chr233";
+            // 
+            // btnFixMaFile
+            // 
+            btnFixMaFile.Location = new Point(166, 101);
+            btnFixMaFile.Name = "btnFixMaFile";
+            btnFixMaFile.Size = new Size(148, 36);
+            btnFixMaFile.TabIndex = 8;
+            btnFixMaFile.Text = "&F. 修补令牌";
+            btnFixMaFile.UseVisualStyleBackColor = true;
+            btnFixMaFile.Click += btnFixMaFile_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(130, 17);
+            label1.TabIndex = 0;
+            label1.Text = "&1. 令牌文件目录 (可选)";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 44);
+            label2.Name = "label2";
+            label2.Size = new Size(94, 17);
+            label2.TabIndex = 2;
+            label2.Text = "&2. 输出文件目录";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 74);
+            label3.Name = "label3";
+            label3.Size = new Size(127, 17);
+            label3.TabIndex = 4;
+            label3.Text = "&3. ASF机器人命名格式";
+            // 
+            // panel1
+            // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel1.Controls.Add(rbAccount);
+            panel1.Controls.Add(rbLower);
+            panel1.Controls.Add(rbUpper);
+            panel1.Location = new Point(148, 70);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(461, 25);
+            panel1.TabIndex = 14;
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(694, 699);
+            ClientSize = new Size(775, 513);
+            Controls.Add(panel1);
+            Controls.Add(btnMaFolder);
+            Controls.Add(btnASFFolder);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(txtASFFolder);
+            Controls.Add(label1);
+            Controls.Add(txtMaFolder);
+            Controls.Add(btnFixMaFile);
             Controls.Add(groupBox6);
-            Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(sS);
-            Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(btnToForm);
             Controls.Add(btnConvert);
-            Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmMain";
-            Text = "SDA令牌ASF配置文件批量转换 - By Chr_ 2023";
+            Text = "SDA令牌ASF配置文件批量转换 - By Chr_";
             FormClosing += FrmMain_FormClosing;
             Load += FrmMain_Load;
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
             sS.ResumeLayout(false);
             sS.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
-            groupBox5.ResumeLayout(false);
-            groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picDonate).EndInit();
             groupBox6.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -356,12 +379,10 @@
         #endregion
 
         private TextBox txtMaFolder;
-        private GroupBox groupBox1;
         private Button btnMaFolder;
         private Button btnConvert;
         private GroupBox groupBox2;
         private TextBox txtBotAccoutns;
-        private GroupBox groupBox3;
         private Button btnASFFolder;
         private TextBox txtASFFolder;
         private Button btnToForm;
@@ -375,8 +396,12 @@
         private RadioButton rbLower;
         private RadioButton rbUpper;
         private RadioButton rbAccount;
-        private GroupBox groupBox5;
         private PictureBox picDonate;
         private GroupBox groupBox6;
+        private Button btnFixMaFile;
+        private Label label1;
+        private Label label2;
+        private Label label3;
+        private Panel panel1;
     }
 }
