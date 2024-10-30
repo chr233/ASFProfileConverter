@@ -435,7 +435,7 @@ namespace ASFProfileConverter
             }
         }
 
-        private static readonly char[] separator = new char[] { ',', '£¬', ' ', '\t' };
+        private static readonly string[] separator = [",", "£¬", " ", "\t"];
 
         private void common_DragEnter(object sender, DragEventArgs e)
         {
