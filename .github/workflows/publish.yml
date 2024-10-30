@@ -120,7 +120,7 @@ jobs:
 
       - name: Create ${{ env.PROJECT_NAME }} GitHub release
         uses: ncipollo/release-action@v1.14.0
-            with:
+        with:
           artifacts: "out/*"
           makeLatest: false
           prerelease: true
