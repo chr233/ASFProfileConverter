@@ -49,7 +49,7 @@ jobs:
             "-p:IncludeNativeLibrariesForSelfExtract=true",
             "-p:ContinuousIntegrationBuild=true",
             "--no-restore",
-            "--nologo",
+            "--nologo"
           )
 
           $commonArgStr = $commonArgs -join " "
