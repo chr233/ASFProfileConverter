@@ -35,9 +35,6 @@ jobs:
       - name: Restore packages in preparation for ${{ env.PROJECT_NAME }} publishing
         run: dotnet restore ${{ env.PROJECT_NAME }} -p:ContinuousIntegrationBuild=true --nologo
 
-      - name: Publish ${{ env.PROJECT_NAME }}
-        run: dotnet publish ${{ env.PROJECT_NAME }} -c:Release -o "./publish/"
-
       - name: Publish ${{ env.PROJECT_NAME }} ${{ matrix.arch }}
         shell: pwsh
         run: |
