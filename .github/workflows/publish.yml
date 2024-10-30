@@ -54,7 +54,7 @@ jobs:
 
           $commonArgStr = $commonArgs -join " "
 
-          dotnet publish ${{ env.PROJECT_NAME }} -o:"./tmp/${{ env.PROJECT_NAME }}-fde" $commonArgStr --self-contained=true 
+          dotnet publish ${{ env.PROJECT_NAME }} -o "./tmp/${{ env.PROJECT_NAME }}-fde" $commonArgStr --self-contained=true 
           dotnet publish ${{ env.PROJECT_NAME }} -o "./tmp/${{ env.PROJECT_NAME }}" $commonArgStr --self-contained=false
       
       - name: Clean Xmls
