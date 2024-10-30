@@ -29,11 +29,11 @@
 		<TargetFramework>net8.0-windows</TargetFramework>
 	</PropertyGroup>
 
-	  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
 		<DebugType>portable</DebugType>
-	  </PropertyGroup>
-	
-	  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<DebugType>none</DebugType>
 		<DebugSymbols>false</DebugSymbols>
 		<DebuggerSupport>false</DebuggerSupport>
@@ -43,6 +43,6 @@
 		<HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
 		<MetadataUpdaterSupport>false</MetadataUpdaterSupport>
 		<UseNativeHttpHandler>false</UseNativeHttpHandler>
-	  </PropertyGroup>
+	</PropertyGroup>
 
 </Project>
